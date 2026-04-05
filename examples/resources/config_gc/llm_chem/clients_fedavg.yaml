@@ -1,0 +1,47 @@
+clients:
+  - endpoint_id: ""
+    transfer_endpoint_id: ""
+    server_endpoint_id: ""
+    client_id: ""
+    train_configs:
+      # Device [Optional]: default is "cpu"
+      device: "cuda"
+      # Logging [Optional]
+      logging_output_dirname: "./output"
+      logging_output_filename: "llm_chem_fedasync_demo_nov"
+      train_batch_size: 6
+      val_batch_size: 6
+      mode: "step"
+      num_local_steps: 30
+      learning_rate: 1e-5
+
+    ds_configs:
+      num_nodes: 2
+      ranks_per_node: 4
+      zero_stages: 3
+      activation_checkpointing: True
+    
+    save_dir: ""
+    
+    scheduler: "PBS"
+
+    # Local dataset
+    data_configs:
+      dataset_path: "./resources/dataset/smolinstruct.py"
+      dataset_name: "get_smolinstruct_data"
+      dataset_kwargs:
+        model_name: "meta-llama/Llama-2-7b-hf"
+        tasks: ['property_prediction-esol', 'property_prediction-lipo', 'property_prediction-bbbp', 'property_prediction-clintox', 'property_prediction-hiv', 'property_prediction-sider']
+        nsamples: 4800
+        seqlen: 512
+
+    # Communication configurations
+    comm_configs:
+      proxystore_configs:
+        enable_proxystore: True
+        connector_type: "GlobusConnector"
+        connector_configs:
+          endpoints: ["", ""]
+          endpoint_paths: ["", ""]
+          local_paths: ["", ""]
+          host_regex: ['', ''] 

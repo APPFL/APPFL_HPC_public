@@ -1,0 +1,68 @@
+client_configs:
+  train_configs:
+    # Local trainer
+    trainer: "llm_chem_trainer_ds"
+    trainer_path: "./resources/trainer/llm_chem_trainer_ds.py"
+    do_validation: False
+    do_pre_validation: False
+    # Differential privacy
+    use_dp: False
+    epsilon: 1
+    clip_grad: False
+    clip_value: 1.0
+    clip_norm: 2.0
+    # Data loader
+    gradient_accumulation_steps: 1
+    train_data_shuffle: True
+    val_data_shuffle: False
+
+  model_configs:
+    model_path: "./resources/model/llama.py"
+    model_name: "get_model"
+    model_kwargs:
+      model_name: "meta-llama/Llama-2-7b-hf"
+
+
+  # comm_configs will be copied to server_configs as well
+  comm_configs:
+    compressor_configs:
+      enable_compression: False
+      # Used if enable_compression is True
+      lossy_compressor:  "SZ2Compressor"
+      lossless_compressor: "blosc"
+      error_bounding_mode: "REL"
+      error_bound: 1e-3
+      param_cutoff: 1024
+
+server_configs:
+  num_clients: 1
+  scheduler: "SyncScheduler"
+  scheduler_kwargs:
+    same_init_model: True
+  aggregator: "FedAvgAggregator"
+  aggregator_kwargs:
+    client_weights_mode: "equal"
+  device: "cpu"
+  deepspeed: True
+  num_global_epochs: 2
+  server_validation: False
+  logging_output_dirname: "./output"
+  logging_output_filename: "llm_chem_test_fedavg"
+  comm_configs:
+    proxystore_configs:
+        enable_proxystore: True
+        connector_type: "GlobusConnector"
+        connector_configs:
+          endpoints: 
+            - ""
+            - ""
+          endpoint_paths: 
+            - ""
+            - ""
+          local_paths: 
+            - ""
+            - ""
+          host_regex: 
+            - ''
+            - ''
+
