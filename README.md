@@ -6,7 +6,7 @@
     <b>Federated Learning across HPC Facilities with APPFL and Globus</b>
 </p>
 
-This repository contains the code for deploying federated learning (FL) workloads across geographically distributed High Performance Computing (HPC) facilities using the [APPFL](https://github.com/APPFL/APPFL) framework with [Globus Compute] and [Globus Transfer] for orchestration.
+This repository contains the code for deploying federated learning (FL) workloads across geographically distributed High Performance Computing (HPC) facilities using the [APPFL](https://github.com/APPFL/APPFL) framework with [Globus Compute and Globus Transfer](https://www.globus.org/) for orchestration.
 
 ---
 
@@ -81,9 +81,10 @@ Edit this file to fill in the server Globus Compute endpoint ID and aggregation 
 
 ---
 
-### Step 3: Configure Globus Transfer
+### Step 3: Configure Globus Transfer in the YAML Files
 
-Globus Transfer is used to move model parameters between the server and clients. In both `clients_fedavg.yaml` and `server_fedavg.yaml`, configure the Globus Transfer endpoint IDs and staging paths. For Proxystore configuration, please refer to the [Proxystore documtation](https://github.com/proxystore/proxystore). 
+Globus Transfer is used to move model parameters between the server and clients. In both `clients_fedavg.yaml` and `server_fedavg.yaml`, configure the Globus Transfer endpoint IDs and paths. For Proxystore configuration, please refer to the [Proxystore documtation](https://github.com/proxystore/proxystore). 
+
 ---
 
 ### Step 4: Run the Experiment
